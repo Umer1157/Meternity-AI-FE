@@ -1,0 +1,478 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+}
+
+body {
+    font-family: 'Segoe UI', 'Poppins', sans-serif;
+    background: url('/10508261.jpg') no-repeat center center/cover;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #fceff1;
+}
+
+#root {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Container Section */
+.container {
+    width: 90%;
+    margin-top: 40px;
+    max-width: 800px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 20px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 0 15px 5px rgba(255, 20, 147, 0.4);
+    backdrop-filter: blur(10px);
+    position: relative; /* For loader positioning */
+}
+
+/* Footer Styling */
+footer {
+    color: rgb(255, 255, 255) !important;
+    text-align: center;
+    padding: 10px;
+    font-size: 11px;
+}
+
+footer p {
+    margin: 5px 0;
+    font-size: 11px;
+}
+
+.header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.header h1 {
+    font-size: 45px;
+    font-family: "Roboto Flex", sans-serif;
+    color: #c32056;
+    margin: 0;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.user-email {
+    font-size: 14px;
+    color: #c32056;
+    font-family: "Roboto Flex", sans-serif;
+}
+
+.logout-btn {
+    padding: 10px 20px;
+    background-color: #fc678a;
+    border: none;
+    border-radius: 8px;
+    color: #ffffff;
+    font-size: 14px;
+    font-family: "Roboto Flex", sans-serif;
+    font-weight: 200;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.logout-btn:hover {
+    background-color: #9a3d4e;
+}
+
+.input-section {
+    width: 100%;
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.input-wrapper {
+    flex: 1;
+    position: relative;
+    display: flex;
+    margin-right: 10px;
+}
+
+.input-field {
+    flex: 1;
+    padding: 15px;
+    padding-right: 45px; /* Increased right padding to make room for mic button */
+    border: 2px solid #f9c5d1;
+    border-radius: 10px;
+    font-size: 16px;
+}
+
+.mic-btn {
+    background: transparent;
+    border: none;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    width: 34px; /* Fixed width */
+    height: 34px; /* Fixed height */
+    border-radius: 50%;
+}
+
+.mic-btn:hover {
+    background-color: rgba(252, 103, 138, 0.1);
+    border-radius: 50%;
+}
+
+.mic-icon {
+    width: 20px; /* Slightly smaller for better fit */
+    height: 20px;
+}
+
+.mic-active {
+    animation: pulse 1.5s infinite;
+    background-color: rgba(252, 103, 138, 0.2);
+    border-radius: 50%;
+}
+
+@keyframes pulse {
+    0% {
+        transform: translateY(-50%) scale(1);
+    }
+    50% {
+        transform: translateY(-50%) scale(1.1);
+    }
+    100% {
+        transform: translateY(-50%) scale(1);
+    }
+}
+
+.generate-btn {
+    padding: 15px 25px;
+    background-color: #fc678a;
+    border: none;
+    border-radius: 10px;
+    color: #ffffff;
+    font-size: 16px;
+    font-family: "Roboto Flex", sans-serif;
+    font-weight: 200;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.generate-btn:hover {
+    background-color: #9a3d4e;
+}
+
+.chat-box {
+    background-color: #ffffff;
+    width: 100%;
+    border-radius: 20px;
+    padding: 20px;
+    height: 300px;
+    overflow-y: auto;
+    color: #555;
+    font-size: 16px;
+    margin-bottom: 20px;
+    box-shadow: inset 0 4px 10px rgba(0, 0, 0, 0.05);
+    position: relative;
+    unicode-bidi: plaintext; /* Allows proper RTL/LTR mixing */
+}
+
+.loader {
+    display: flex; /* Changed from none to flex when shown */
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.7); /* Semi-transparent background */
+    z-index: 999;
+}
+
+.loader img {
+    width: 120px; /* size of life GIF */
+    height: auto;
+}
+
+/* Loading chat container - smaller, centered loader */
+.loading-chat-container {
+    min-height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 30px;
+}
+
+.loading-chat-container .loader {
+    position: relative;
+    width: auto;
+    height: auto;
+    background-color: transparent;
+}
+
+.loading-chat-container .loader img {
+    width: 80px; /* Smaller size for chat loading */
+    height: auto;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.action-btn {
+    flex: 1;
+    margin: 0 5px;
+    padding: 12px;
+    background-color: #fc678a;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.action-btn:hover {
+    background-color: #9a3d4e;
+}
+
+.modal {
+    display: block; /* Changed from none - controlled by React */
+    position: fixed;
+    z-index: 10;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    background-color: #fff;
+    color: #555;
+    padding: 20px;
+    border-radius: 15px;
+    width: 320px;
+    margin: 100px auto;
+    text-align: center;
+}
+
+.close {
+    font-size: 28px;
+    font-weight: bold;
+    color: #999;
+    cursor: pointer;
+    float: right;
+}
+
+.close:hover,
+.close:focus {
+    color: #333;
+}
+
+.chat-header-actions {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.back-btn, .close-btn {
+    padding: 10px 20px;
+    background-color: #fc678a;
+    border: none;
+    border-radius: 8px;
+    color: #ffffff;
+    font-size: 14px;
+    font-family: "Roboto Flex", sans-serif;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.back-btn:hover, .close-btn:hover {
+    background-color: #9a3d4e;
+}
+
+.close-btn {
+    font-size: 24px;
+    padding: 5px 15px;
+    line-height: 1;
+}
+
+.advice-heading {
+    font-size: 1.7rem;
+    color: rgba(195, 32, 86, 0.8);
+    font-weight: 400;
+    margin-top: 1.5rem;
+    margin-bottom: 2rem;
+    border-bottom: 2px solid pink;
+    padding-bottom: 0.5rem;
+    text-align: start;
+    direction: auto;
+    unicode-bidi: plaintext;
+}
+
+.advice-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    margin-bottom: 2rem;
+}
+
+.advice-card {
+    font-family: "Quicksand", sans-serif;
+    background: #ffe6f0;
+    padding: 1rem 1.5rem;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(255, 105, 180, 0.2);
+    font-size: 1rem;
+    color: #d63384;
+    border: 1px solid hotpink;
+    transition: transform 0.2s;
+    text-align: start;
+    direction: auto;
+    unicode-bidi: plaintext;
+}
+
+.advice-card:hover {
+    transform: scale(1.03);
+    background: #ffd6eb;
+}
+
+.advice-subheading {
+    font-size: 1.2rem;
+    font-weight: 300;
+    color: rgba(195, 32, 86, 0.807);
+    margin-bottom: 0.5rem;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 600px) {
+    .header {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .header h1 {
+        font-size: 28px;
+        text-align: center;
+    }
+
+    .header-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .logout-btn {
+        width: 100%;
+    }
+
+    .input-section {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .input-wrapper {
+        width: 100%;
+        margin-right: 0;
+    }
+
+    .input-field {
+        width: 100%;
+        font-size: 14px;
+        padding: 12px;
+        padding-right: 40px;
+    }
+
+    .generate-btn {
+        width: 100%;
+        font-size: 14px;
+        padding: 12px;
+    }
+
+    .chat-box {
+        height: 250px;
+        font-size: 14px;
+    }
+
+    .buttons {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .action-btn {
+        width: 100%;
+    }
+
+    .modal-content {
+        width: 90%;
+        margin: 20% auto;
+    }
+
+    .advice-heading {
+        font-size: 1.3rem;
+    }
+
+    .advice-card {
+        font-size: 0.9rem;
+        padding: 0.8rem 1rem;
+    }
+}
+
+/* Urdu/Arabic text support - Apply Urdu font ONLY for RTL content */
+#adviceContainer[dir="rtl"] {
+    font-family: 'Noto Nastaliq Urdu', 'Jameel Noori Nastaleeq', 'Segoe UI', sans-serif;
+}
+
+/* Keep default font for LTR (English) content */
+#adviceContainer[dir="ltr"] {
+    font-family: 'Segoe UI', 'Poppins', sans-serif;
+}
+
+/* Better line height for Urdu text */
+#adviceContainer[dir="rtl"] .advice-card {
+    line-height: 2;
+    font-size: 1.1rem;
+}
+
+#adviceContainer[dir="rtl"] .advice-heading {
+    line-height: 2.2;
+}
+
+/* Tablet responsiveness */
+@media (min-width: 601px) and (max-width: 1024px) {
+    .header h1 {
+        font-size: 36px;
+    }
+
+    .chat-box {
+        height: 300px;
+    }
+}
