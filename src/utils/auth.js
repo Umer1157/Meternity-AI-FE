@@ -2,13 +2,13 @@ import { API_BASE_URL } from './config.js';
 
 const buildUrl = (path) => `${API_BASE_URL}${path}`;
 
-export async function signup(email, password) {
+export async function signup(email, password, recaptchaToken) {
   const response = await fetch(buildUrl('/signup'), {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ email, password })
+    body: JSON.stringify({ email, password, recaptchaToken })
   });
 
   const data = await response.json();

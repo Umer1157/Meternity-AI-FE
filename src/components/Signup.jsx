@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { signup as signupAPI } from '../utils/auth'
 import './Auth.css'
+import ReCAPTCHA from 'react-google-recaptcha';
 
 function Signup({ onSwitchToLogin }) {
   const [email, setEmail] = useState('')
@@ -8,6 +9,11 @@ function Signup({ onSwitchToLogin }) {
   const [confirmPassword, setConfirmPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+  const [recaptchaToken, setRecaptchaToken] = useState(null);
+
+  const onRecaptchaChange = (token) => {
+    setRecaptchaToken(token);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -25,10 +31,15 @@ function Signup({ onSwitchToLogin }) {
       return
     }
 
+    if (!recaptchaToken) {
+      alert('Please complete the reCAPTCHA!');
+      return;
+    }
+
     setLoading(true)
 
     try {
-      const response = await signupAPI(email, password)
+      const response = await signupAPI(email, password, recaptchaToken)
       // After successful signup, switch to login page
       onSwitchToLogin()
     } catch (err) {
@@ -85,6 +96,11 @@ function Signup({ onSwitchToLogin }) {
               placeholder="Confirm your password"
             />
           </div>
+
+          <ReCAPTCHA
+	          sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
+	          onChange={onRecaptchaChange}
+	        />
 
           <button 
             type="submit" 
